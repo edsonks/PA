@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pastoral de Adolescentes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@700&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Montserrat', 'sans-serif'],
+              display: ['Poppins', 'sans-serif'],
+            },
+          },
+        },
+      }
+    </script>
+    <style>
+      body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        overflow-x: hidden;
+        font-family: 'Montserrat', sans-serif;
+      }
+      .animated-gradient {
+        background: linear-gradient(135deg, #f97316, #ea580c, #fb923c, #a5f3fc);
+        background-size: 400% 400%;
+        animation: gradient-move 20s ease infinite;
+      }
+
+      @keyframes gradient-move {
+        0% {
+          background-position: 0% 100%;
+        }
+        50% {
+          background-position: 100% 0%;
+        }
+        100% {
+          background-position: 0% 100%;
+        }
+      }
+      
+      .text-shadow {
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      /* CSS for interactive shine effect */
+      .interactive-shine-card {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .interactive-shine-card::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+          circle 300px at var(--mouse-x) var(--mouse-y),
+          rgba(255, 255, 255, 0.15),
+          transparent 80%
+        );
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+        pointer-events: none; /* Make sure the pseudo-element doesn't block mouse events */
+      }
+
+      .interactive-shine-card:hover::before {
+        opacity: 1;
+      }
+      
+      /* CSS for Logo Animation */
+      .logo-container {
+        position: relative;
+        transform-style: preserve-3d;
+        z-index: 10;
+      }
+
+      .logo-container.animating .logo-image {
+        animation: coin-flip 1.5s cubic-bezier(0.2, 0.8, 0.7, 1) forwards;
+      }
+
+      .logo-container::before, .logo-container::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 1px;
+        height: 1px;
+        pointer-events: none;
+        background: white;
+        border-radius: 50%;
+        box-shadow: 0 0 5px 2px white;
+        opacity: 0;
+      }
+
+      .logo-container.animating::before {
+        /* Star Burst */
+        animation: star-burst-effect 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+      }
+      
+      .logo-container.animating::after {
+         /* Ripple Effect */
+        animation: ripple-effect 1.5s cubic-bezier(0.2, 0.8, 0.7, 1) forwards;
+      }
+      
+      @keyframes coin-flip {
+        0% { transform: perspective(1000px) rotateY(0deg); }
+        100% { transform: perspective(1000px) rotateY(360deg); }
+      }
+
+      @keyframes star-burst-effect {
+        0%, 100% { opacity: 0; box-shadow: 0 0 0 0 white; }
+        20% { opacity: 1; }
+        60% {
+          opacity: 1;
+          box-shadow: 
+            /* Core */
+            0 0 5px 2px white,
+            /* Large Stars */
+            -100px 20px 3px 1px white, 100px -80px 4px 1px white,
+            /* Medium Stars */
+            50px 120px 2px 1px white, -50px -120px 2px 1px white,
+            -10px 90px 3px 0 white, 130px 10px 2px 0 white,
+            /* Small Stars */
+            -110px -70px 1px 0 white, 110px 130px 1px 0 white,
+            20px -110px 1px 1px white, -80px 100px 1px 1px white,
+            -125px 0px 2px 0 white, 75px -100px 1px 0 white;
+        }
+      }
+      
+      @keyframes ripple-effect {
+        0% { transform: translate(-50%, -50%) scale(0); opacity: 0.8; box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.5); }
+        80% { opacity: 0.5; }
+        100% { transform: translate(-50%, -50%) scale(2); opacity: 0; box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0); }
+      }
+
+      /* CSS for Fullscreen Title Animation */
+      .fullscreen-animation-overlay {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        z-index: 100;
+        transition: opacity 0.3s ease-in-out;
+        background-color: rgba(234, 88, 12, 0.5); /* Semi-transparent orange */
+        backdrop-filter: blur(8px);
+      }
+      .fullscreen-animation-overlay.animating {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .fullscreen-heart {
+        position: absolute;
+        width: 80vmin; /* Use viewport units for responsiveness */
+        height: 80vmin;
+        color: #a5f3fc; /* Light cyan */
+        opacity: 0;
+      }
+      .fullscreen-animation-overlay.animating .fullscreen-heart {
+        animation: heart-fullscreen-beat 2s ease-in-out forwards;
+      }
+      .fullscreen-pa {
+        position: relative;
+        display: flex;
+        font-family: 'Poppins', sans-serif;
+        font-size: 50vmin; /* Huge, responsive text */
+        color: white;
+        text-shadow: 0 5px 20px rgba(0,0,0,0.4);
+      }
+      .fullscreen-pa span {
+        opacity: 0;
+      }
+      .fullscreen-animation-overlay.animating .fullscreen-pa-p {
+        animation: pa-fullscreen-float-in 1.2s ease-out 0.3s forwards;
+      }
+      .fullscreen-animation-overlay.animating .fullscreen-pa-a {
+        animation: pa-fullscreen-float-in 1.2s ease-out 0.5s forwards;
+      }
+      @keyframes heart-fullscreen-beat {
+        0% { opacity: 0; transform: scale(0.5); }
+        50% { opacity: 0.5; transform: scale(1.1); }
+        100% { opacity: 0.3; transform: scale(1); }
+      }
+      @keyframes pa-fullscreen-float-in {
+        from { opacity: 0; transform: translateY(50px) scale(0.8); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+      }
+      
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
